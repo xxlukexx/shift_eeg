@@ -196,11 +196,13 @@ function [suc, oc, ops, data_seg, tab_tasks] = PSILAUT_01_doPreproc(path_eeg, pa
             ops.(fld) = length(data_seg{t}.trial);
 
             % Adjust the event sample indices to be relative to the start of the segment
-            adjusted_events = event(idx_s1(t):idx_s2(t));
-            first_event_sample = adjusted_events(1).sample - padding_samps;
+            adjusted_events = event(idx_s1:idx_s2);
+            first_event_sample = adjusted_events(1).sample;
+
             for i = 1:length(adjusted_events)
                 adjusted_events(i).sample = adjusted_events(i).sample - first_event_sample + 1;
             end
+
             data_seg{t}.event = adjusted_events;
 
             % update task summary table
